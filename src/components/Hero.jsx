@@ -59,6 +59,22 @@ function usePointerWeight(ref) {
   }, [ref]);
 }
 
+// Each line also measures its own fit: small screens set the two lines at different sizes
+// so both span the full width, like a justified poster.
+function Line({ text, offset }) {
+  const ref = useFitText();
+
+  return (
+    <span className="hero__line" aria-hidden="true" ref={ref}>
+      {[...text].map((letter, column) => (
+        <span key={column} data-letter style={{ '--i': offset + column }}>
+          {letter}
+        </span>
+      ))}
+    </span>
+  );
+}
+
 export default function Hero() {
   const { t, lang } = useLang();
   const sectionRef = useRef(null);
@@ -86,13 +102,7 @@ export default function Hero() {
         {/* Font size comes from the fitted last line, so both lines share one cap height. */}
         <h1 className="hero__name" aria-label="Diego Tepichin" ref={fitRef}>
           {LINES.map((line, row) => (
-            <span className="hero__line" key={line} aria-hidden="true">
-              {[...line].map((letter, column) => (
-                <span key={column} data-letter style={{ '--i': row * LINES[0].length + column }}>
-                  {letter}
-                </span>
-              ))}
-            </span>
+            <Line key={line} text={line} offset={row * LINES[0].length} />
           ))}
         </h1>
       </div>
