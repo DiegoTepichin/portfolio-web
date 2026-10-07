@@ -1,4 +1,4 @@
-import portrait from '../assets/diego-600.jpg';
+import portrait from '../assets/diego-720.jpg';
 import { PRINCIPLES, SECTIONS } from '../content';
 import { useLang } from '../i18n/LangContext';
 import SectionHead from './SectionHead';
