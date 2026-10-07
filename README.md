@@ -4,7 +4,7 @@ Personal portfolio of Diego Tepichin, systems engineer and founder of [CAFE](htt
 A single typographic sheet: a fixed frame, an index of work that opens row by row, and a small
 interactive demo inside each project.
 
-**Live:** [portafoliodiegotepichin.netlify.app](https://portafoliodiegotepichin.netlify.app)
+**Live:** [diegotepichin.vercel.app](https://diegotepichin.vercel.app)
 
 ## What is in it
 
