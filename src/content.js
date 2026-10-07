@@ -6,7 +6,7 @@ export const LINKS = {
   linkedin: 'https://www.linkedin.com/in/diego-duron-tepichin',
   email: 'durontepichindiego@gmail.com',
   cafe: 'https://cafe-pricing.com',
-  cafeEmail: 'cafe.licensing@proton.me',
+  cafeEmail: 'contact@cafe-pricing.com',
 };
 
 export const SECTIONS = [
