@@ -1,0 +1,7 @@
+# Netlify builds the production site from the `main` branch.
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
