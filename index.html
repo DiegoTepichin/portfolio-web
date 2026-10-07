@@ -1,13 +1,40 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Diego Tepichin | Portafolio Profesional</title>
+    <title>Diego Tepichin — Ingeniero de sistemas · Pricing, ML y herramientas para LATAM</title>
+    <meta
+      name="description"
+      content="Diego Tepichin, ingeniero de sistemas y fundador de CAFE. Precios dinámicos con inferencia causal, machine learning y herramientas abiertas para México y Latinoamérica."
+    />
+    <meta name="theme-color" content="#f2efe9" />
+    <meta property="og:title" content="Diego Tepichin — Systems engineer" />
+    <meta
+      property="og:description"
+      content="Causal dynamic pricing, machine learning and open tools for Mexico and Latin America."
+    />
+    <meta property="og:type" content="website" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      // Apply the saved or system theme before first paint to avoid a flash.
+      (function () {
+        var theme;
+        try {
+          theme = localStorage.getItem('theme');
+        } catch (e) {}
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
