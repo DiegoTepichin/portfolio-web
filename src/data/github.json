@@ -1,0 +1,185 @@
+{
+  "syncedAt": "2026-10-07T03:52:24.060Z",
+  "profile": {
+    "login": "DiegoTepichin",
+    "name": "Diego Tepichin",
+    "bio": "Systems Engineer · Founder of CAFE (causal dynamic pricing) · Python, ML, React · Building open tools for LATAM",
+    "company": "Founder @ CAFE",
+    "location": "Metepec, Mexico",
+    "blog": "https://cafe-pricing.com",
+    "url": "https://github.com/DiegoTepichin",
+    "publicRepos": 7,
+    "createdAt": "2025-06-08T20:35:52Z"
+  },
+  "totals": {
+    "repos": 7,
+    "commits": 177,
+    "stars": 3,
+    "languageBytes": {
+      "TypeScript": 184585,
+      "JavaScript": 114840,
+      "Python": 89145,
+      "HCL": 30737,
+      "CSS": 10841,
+      "Makefile": 4797,
+      "Dockerfile": 4215,
+      "HTML": 1323,
+      "Shell": 318
+    }
+  },
+  "repos": [
+    {
+      "name": "portfolio-web",
+      "description": "Mi portafolio profesional como ingeniero de sistemas",
+      "url": "https://github.com/DiegoTepichin/portfolio-web",
+      "homepage": null,
+      "language": "JavaScript",
+      "languages": {
+        "JavaScript": 79589,
+        "CSS": 7962,
+        "HTML": 662
+      },
+      "topics": [],
+      "stars": 0,
+      "commits": 2,
+      "createdAt": "2026-06-20T02:28:21Z",
+      "pushedAt": "2026-10-07T00:25:56Z"
+    },
+    {
+      "name": "DiegoTepichin",
+      "description": null,
+      "url": "https://github.com/DiegoTepichin/DiegoTepichin",
+      "homepage": null,
+      "language": null,
+      "languages": {},
+      "topics": [],
+      "stars": 0,
+      "commits": 18,
+      "createdAt": "2026-10-02T03:50:58Z",
+      "pushedAt": "2026-10-07T00:25:55Z"
+    },
+    {
+      "name": "mcp-mexico",
+      "description": "MCP server that gives AI agents official Mexican public data: Banxico exchange and interest rates, INEGI inflation, UMA and ISR tables.",
+      "url": "https://github.com/DiegoTepichin/mcp-mexico",
+      "homepage": null,
+      "language": "Python",
+      "languages": {
+        "Python": 52677
+      },
+      "topics": ["banxico", "inegi", "mcp", "mexico", "model-context-protocol", "python", "sat"],
+      "stars": 0,
+      "commits": 31,
+      "createdAt": "2026-10-02T08:26:36Z",
+      "pushedAt": "2026-10-06T06:43:44Z"
+    },
+    {
+      "name": "calculadoras-mx",
+      "description": "Open-source tax & labor calculators for Mexico and Colombia: ISR, payroll, IMSS, severance. Fully static, tested.",
+      "url": "https://github.com/DiegoTepichin/calculadoras-mx",
+      "homepage": "https://calculadoras-mx.netlify.app",
+      "language": "TypeScript",
+      "languages": {
+        "TypeScript": 184585,
+        "JavaScript": 679,
+        "CSS": 523,
+        "HTML": 53
+      },
+      "topics": [
+        "latam",
+        "mexico",
+        "nextjs",
+        "payroll",
+        "sat",
+        "static-site",
+        "tax-calculator",
+        "typescript"
+      ],
+      "stars": 0,
+      "commits": 41,
+      "createdAt": "2026-09-09T23:44:30Z",
+      "pushedAt": "2026-10-05T00:03:02Z"
+    },
+    {
+      "name": "cicd-pipeline",
+      "description": "Production-ready Flask API shipped through a full CI/CD pipeline: Ruff, mypy, Bandit, pytest, Docker and Trivy",
+      "url": "https://github.com/DiegoTepichin/cicd-pipeline",
+      "homepage": null,
+      "language": "Python",
+      "languages": {
+        "Python": 4753,
+        "Dockerfile": 3184,
+        "Makefile": 1586
+      },
+      "topics": [
+        "ci-cd",
+        "devsecops",
+        "docker",
+        "flask",
+        "ghcr",
+        "github-actions",
+        "gunicorn",
+        "python",
+        "trivy"
+      ],
+      "stars": 1,
+      "commits": 31,
+      "createdAt": "2026-06-20T02:28:25Z",
+      "pushedAt": "2026-10-03T17:23:39Z"
+    },
+    {
+      "name": "sys-monitor",
+      "description": "Real-time host monitoring: psutil agent, authenticated Flask API and React dashboard. Dockerized, tested, CI.",
+      "url": "https://github.com/DiegoTepichin/sys-monitor",
+      "homepage": null,
+      "language": "JavaScript",
+      "languages": {
+        "JavaScript": 34572,
+        "Python": 31715,
+        "CSS": 2356,
+        "Dockerfile": 1031,
+        "HTML": 608
+      },
+      "topics": [
+        "devops",
+        "docker",
+        "flask",
+        "psutil",
+        "python",
+        "react",
+        "system-monitoring",
+        "vite"
+      ],
+      "stars": 1,
+      "commits": 39,
+      "createdAt": "2026-06-20T02:28:23Z",
+      "pushedAt": "2026-10-03T06:01:36Z"
+    },
+    {
+      "name": "iac-terraform",
+      "description": "Terraform on AWS: VPC, ALB and Auto Scaling in private subnets across dev/staging/prod, with tests and CI",
+      "url": "https://github.com/DiegoTepichin/iac-terraform",
+      "homepage": null,
+      "language": "HCL",
+      "languages": {
+        "HCL": 30737,
+        "Makefile": 3211,
+        "Shell": 318
+      },
+      "topics": [
+        "aws",
+        "aws-alb",
+        "checkov",
+        "devops",
+        "github-actions",
+        "infrastructure-as-code",
+        "terraform",
+        "tflint"
+      ],
+      "stars": 1,
+      "commits": 15,
+      "createdAt": "2026-06-20T02:28:27Z",
+      "pushedAt": "2026-10-03T03:24:59Z"
+    }
+  ]
+}
