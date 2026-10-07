@@ -29,3 +29,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# iCloud-excluded dependency folder (node_modules symlink target)
+node_modules.nosync

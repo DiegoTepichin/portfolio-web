@@ -1,386 +1,438 @@
-import { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { FiMapPin, FiExternalLink, FiArrowRight } from 'react-icons/fi';
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
+import {
+  SiPython,
+  SiGnubash,
+  SiLinux,
+  SiFlask,
+  SiDocker,
+  SiGithubactions,
+  SiTerraform,
+  SiGooglecloud,
+  SiScikitlearn,
+  SiReact,
+  SiJavascript,
+  SiTailwindcss,
+  SiGit,
+  SiPostgresql,
+  SiOpenai,
+} from 'react-icons/si';
+import { FaAws } from 'react-icons/fa';
+
 import diegoAvatar from '../assets/diego.jpg';
-import Skills from '../components/Skills';
 import PageTransition from '../components/PageTransition';
 
-// ---------------------------------------------------------------------------
-// Animation variants
-// ---------------------------------------------------------------------------
+// ─────────────────────────────────────────────────────────────────────────────
+// DATA
+// ─────────────────────────────────────────────────────────────────────────────
 
-const heroContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { delayChildren: 0.15, staggerChildren: 0.18 },
-  },
-};
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 32 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
-const aboutContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { delayChildren: 0.2, staggerChildren: 0.14 },
-  },
-};
-
-const aboutItem = {
-  hidden: { opacity: 0, y: 28 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
-// ---------------------------------------------------------------------------
-// Stats bar — shows 3 quick metrics
-// ---------------------------------------------------------------------------
-
-const STATS = [
-  { value: '3+', label: 'Proyectos' },
-  { value: 'Python', label: 'Lenguaje principal' },
-  { value: 'Remoto', label: 'Disponibilidad' },
+const SKILLS = [
+  { label: 'Python', Icon: SiPython, color: '#3776AB' },
+  { label: 'JavaScript', Icon: SiJavascript, color: '#F7DF1E' },
+  { label: 'React', Icon: SiReact, color: '#61DAFB' },
+  { label: 'Tailwind', Icon: SiTailwindcss, color: '#06B6D4' },
+  { label: 'Linux', Icon: SiLinux, color: '#FCC624' },
+  { label: 'Bash', Icon: SiGnubash, color: '#4EAA25' },
+  { label: 'Git', Icon: SiGit, color: '#F05032' },
+  { label: 'Docker', Icon: SiDocker, color: '#2496ED' },
+  { label: 'Flask', Icon: SiFlask, color: '#94a3b8' },
+  { label: 'SQL', Icon: SiPostgresql, color: '#4479A1' },
+  { label: 'Terraform', Icon: SiTerraform, color: '#7B42BC' },
+  { label: 'AWS', Icon: FaAws, color: '#FF9900' },
+  { label: 'GCP', Icon: SiGooglecloud, color: '#4285F4' },
+  { label: 'CI/CD', Icon: SiGithubactions, color: '#2088FF' },
+  { label: 'Sklearn', Icon: SiScikitlearn, color: '#F7931E' },
+  { label: 'Prompt Eng.', Icon: SiOpenai, color: '#7C3AED' },
 ];
 
-function StatsBar() {
-  return (
-    <motion.div
-      variants={fadeUp}
-      className="flex flex-col sm:flex-row gap-4 sm:gap-0 justify-center items-center sm:divide-x sm:divide-white/10 mt-2"
-    >
-      {STATS.map(({ value, label }) => (
-        <div key={label} className="flex flex-col items-center sm:px-8 first:pl-0 last:pr-0">
-          <span className="text-2xl font-bold text-cyan-400 tracking-tight leading-none">
-            {value}
-          </span>
-          <span className="text-[11px] text-zinc-500 uppercase tracking-widest mt-1">
-            {label}
-          </span>
-        </div>
-      ))}
-    </motion.div>
-  );
-}
+const FEATURED_PROJECT = {
+  name: 'CAFE Dynamic Pricing',
+  tag: 'ML · Pricing',
+  description:
+    'Motor de pricing dinámico con ML e inferencia causal. Causal Adaptive Fusion Engine v2.2 — optimización de precios en tiempo real.',
+  tech: ['Python', 'Scikit-learn', 'Prompt Eng.'],
+  link: 'https://cafe-pricing.netlify.app/?lang=en#pricing',
+};
 
-// ---------------------------------------------------------------------------
-// ScrollIndicator
-// ---------------------------------------------------------------------------
+// ─────────────────────────────────────────────────────────────────────────────
+// ANIMATION VARIANTS
+// ─────────────────────────────────────────────────────────────────────────────
 
-function ScrollIndicator() {
-  const { scrollY } = useScroll();
-  const opacity = useTransform(scrollY, [0, 80], [1, 0]);
-  const y = useTransform(scrollY, [0, 80], [0, 12]);
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: (delay = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] },
+  }),
+};
 
-  return (
-    <motion.div
-      style={{ opacity, y }}
-      className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none select-none"
-      aria-hidden="true"
-    >
-      <span className="text-[10px] font-medium tracking-[0.3em] uppercase text-zinc-600">
-        Scroll
-      </span>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="w-4 h-4 text-zinc-600"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={2}
-        style={{ animation: 'scroll-bounce 1.6s ease-in-out infinite' }}
-      >
-        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-      </svg>
-    </motion.div>
-  );
-}
+const staggerContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.06 } },
+};
 
-// ---------------------------------------------------------------------------
-// Component
-// ---------------------------------------------------------------------------
+const skillItem = {
+  hidden: { opacity: 0, y: 16, scale: 0.95 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// HOME PAGE
+// ─────────────────────────────────────────────────────────────────────────────
 
 export default function Home() {
-  const heroRef = useRef(null);
-  const shouldReduceMotion = useReducedMotion();
-
-  const { scrollY } = useScroll();
-  const heroY = useTransform(scrollY, [0, 400], [0, shouldReduceMotion ? 0 : -35]);
-
   return (
     <PageTransition>
-      <div className="space-y-0">
+      <div className="max-w-4xl mx-auto px-6 py-16 sm:py-24 space-y-24">
+        <title>Diego Tepichin — Systems Engineer · Automation & Infrastructure</title>
 
-        {/* ==============================================================
-            HERO SECTION — glass panel over the animated background
-        ============================================================== */}
-        <section
-          ref={heroRef}
-          className="relative flex items-center justify-center min-h-[90vh] px-6 py-24 overflow-hidden"
-        >
-          {/* Subtle dot-grid texture at low opacity */}
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 pointer-events-none opacity-[0.025]"
-            style={{
-              backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)',
-              backgroundSize: '30px 30px',
-            }}
-          />
-
-          {/* Hero content — parallax wrapper */}
-          <motion.div
-            className="relative z-10 w-full max-w-3xl mx-auto text-center"
-            style={{ y: heroY }}
-          >
-            {/* Glass panel behind the text */}
-            <div
-              className="rounded-3xl px-8 py-12 sm:px-12 sm:py-16"
+        {/* ═══════════════════════════════════════════════════════════
+            HERO SECTION
+        ═══════════════════════════════════════════════════════════ */}
+        <section className="space-y-8">
+          {/* Availability badge */}
+          <motion.div variants={fadeUp} custom={0} initial="hidden" animate="visible">
+            <span
+              className="badge-glow inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold"
               style={{
-                background: 'rgba(255,255,255,0.03)',
-                backdropFilter: 'blur(20px) saturate(150%)',
-                WebkitBackdropFilter: 'blur(20px) saturate(150%)',
-                border: '1px solid rgba(255,255,255,0.07)',
-                boxShadow: '0 32px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05)',
+                background: 'rgba(232, 93, 38, 0.1)',
+                border: '1px solid rgba(232, 93, 38, 0.3)',
+                color: '#e85d26',
               }}
             >
-              <motion.div
-                variants={heroContainer}
-                initial="hidden"
-                animate="visible"
-                className="space-y-6"
-              >
-                {/* Availability badge */}
-                <motion.div variants={fadeUp}>
-                  <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium border"
-                    style={{
-                      background: 'rgba(16, 185, 129, 0.08)',
-                      borderColor: 'rgba(16, 185, 129, 0.25)',
-                      color: '#34d399',
-                    }}
-                  >
-                    <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                      <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-400" />
-                    </span>
-                    Disponible para oportunidades
-                  </span>
-                </motion.div>
-
-                {/* h1 */}
-                <motion.h1
-                  variants={fadeUp}
-                  className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-zinc-50 leading-[1.05]"
-                >
-                  Diego{' '}
-                  <span
-                    className="bg-clip-text text-transparent"
-                    style={{
-                      backgroundImage: 'linear-gradient(135deg, #22d3ee 0%, #818cf8 50%, #a78bfa 100%)',
-                    }}
-                  >
-                    Tepichin
-                  </span>
-                </motion.h1>
-
-                {/* Subtitle */}
-                <motion.p
-                  variants={fadeUp}
-                  className="text-base sm:text-lg font-semibold text-cyan-400/80 tracking-wide"
-                >
-                  Ingeniero de Sistemas en formación
-                  <span className="mx-2 opacity-30">·</span>
-                  Automatización &amp; Infraestructura
-                </motion.p>
-
-                {/* Bio */}
-                <motion.p
-                  variants={fadeUp}
-                  className="text-sm sm:text-base text-zinc-500 max-w-xl mx-auto leading-relaxed"
-                >
-                  Estudiante avanzado de Ingeniería en Sistemas con enfoque en backend y
-                  automatización. Me apasionan Python, Linux y construir soluciones robustas
-                  que resuelvan problemas reales.
-                </motion.p>
-
-                {/* CTA Buttons */}
-                <motion.div
-                  variants={fadeUp}
-                  className="flex flex-col sm:flex-row gap-3 justify-center items-center"
-                >
-                  <Link
-                    to="/proyectos"
-                    className="btn-ripple group inline-flex items-center gap-2 px-7 py-3 rounded-full font-semibold text-sm text-white transition-all duration-200 hover:scale-[1.04] active:scale-[0.97]"
-                    style={{
-                      background: 'linear-gradient(135deg, #06b6d4, #6366f1)',
-                      boxShadow: '0 0 20px rgba(6,182,212,0.25), 0 4px 16px rgba(0,0,0,0.4)',
-                    }}
-                  >
-                    Ver Proyectos
-                    <span className="inline-block transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">→</span>
-                  </Link>
-
-                  <Link
-                    to="/contacto"
-                    className="btn-ripple inline-flex items-center gap-2 px-7 py-3 rounded-full font-semibold text-sm text-zinc-300 transition-all duration-200 hover:text-zinc-100 hover:scale-[1.04] active:scale-[0.97]"
-                    style={{
-                      background: 'rgba(255,255,255,0.05)',
-                      border: '1px solid rgba(255,255,255,0.12)',
-                    }}
-                  >
-                    Contactar
-                  </Link>
-                </motion.div>
-
-                {/* Stats bar */}
-                <StatsBar />
-              </motion.div>
-            </div>
+              <span className="relative flex h-2 w-2" aria-hidden="true">
+                <span className="dot-ping absolute inline-flex h-full w-full rounded-full bg-ember opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-ember" />
+              </span>
+              <FiMapPin className="w-3 h-3" aria-hidden="true" />
+              Disponible · Remoto
+            </span>
           </motion.div>
 
-          <ScrollIndicator />
-        </section>
+          {/* Name + Role */}
+          <div className="flex flex-col sm:flex-row items-start gap-6 sm:gap-10">
+            {/* Avatar */}
+            <motion.div
+              variants={fadeUp}
+              custom={0.1}
+              initial="hidden"
+              animate="visible"
+              className="relative w-20 h-20 sm:w-24 sm:h-24 shrink-0"
+            >
+              {/* Ember ring */}
+              <div
+                className="absolute -inset-1 rounded-full"
+                style={{
+                  background: 'conic-gradient(from 0deg, #e85d26, #f59e0b, #c2410c, #e85d26)',
+                  opacity: 0.5,
+                  filter: 'blur(3px)',
+                }}
+                aria-hidden="true"
+              />
+              <img
+                src={diegoAvatar}
+                alt="Diego Tepichin"
+                className="relative w-full h-full rounded-full object-cover"
+                style={{ border: '3px solid #0c0a09' }}
+              />
+            </motion.div>
 
-        {/* ==============================================================
-            SKILLS SECTION
-        ============================================================== */}
-        <Skills />
-
-        {/* ==============================================================
-            ABOUT SECTION
-        ============================================================== */}
-        <section
-          className="relative px-6 py-24 overflow-hidden"
-          aria-labelledby="about-heading"
-        >
-          {/* Glass strip behind the about content */}
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              background: 'rgba(255,255,255,0.015)',
-              borderTop: '1px solid rgba(255,255,255,0.06)',
-              borderBottom: '1px solid rgba(255,255,255,0.06)',
-            }}
-            aria-hidden="true"
-          />
-
-          <motion.div
-            className="relative z-10 w-full max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center"
-            variants={aboutContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-80px' }}
-          >
-            {/* Text column */}
-            <div className="space-y-6 text-center md:text-left">
-              <motion.div variants={aboutItem} className="space-y-2">
-                <p id="about-heading" className="text-[10px] font-semibold uppercase tracking-[0.3em] text-cyan-500">
-                  Sobre Mí
-                </p>
-                <h2 className="text-3xl sm:text-4xl font-bold text-zinc-50 leading-tight">
-                  Construyendo sistemas{' '}
-                  <span
-                    className="bg-clip-text text-transparent"
-                    style={{ backgroundImage: 'linear-gradient(135deg, #22d3ee, #818cf8)' }}
-                  >
-                    que escalan
-                  </span>
-                </h2>
-              </motion.div>
-
-              <motion.div
-                variants={aboutItem}
-                className="text-sm sm:text-base text-zinc-500 space-y-4 leading-relaxed"
+            {/* Text */}
+            <div className="space-y-3">
+              <motion.h1
+                variants={fadeUp}
+                custom={0.15}
+                initial="hidden"
+                animate="visible"
+                className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1]"
+                style={{ fontFamily: 'var(--font-display)', color: '#faf7f2' }}
               >
-                <p>
-                  Soy Diego Tepichin, apasionado por la tecnología y la ingeniería de sistemas. Mi enfoque principal es la <strong className="text-zinc-300 font-semibold">automatización</strong>, la infraestructura y el desarrollo backend.
-                </p>
-                <p>
-                  Disfruto creando soluciones eficientes que eliminen tareas repetitivas y optimicen procesos. Me gusta profundizar en cómo funcionan las cosas bajo el capó: Linux, Docker, Python.
-                </p>
-                <p>
-                  Mi objetivo es unirme a un equipo innovador en un entorno <strong className="text-zinc-300 font-semibold">remoto</strong>, aportar valor y desarrollar software de nivel de producción.
-                </p>
-              </motion.div>
+                Diego{' '}
+                <span
+                  className="bg-clip-text text-transparent"
+                  style={{
+                    backgroundImage:
+                      'linear-gradient(135deg, #e85d26 0%, #f59e0b 60%, #c2410c 100%)',
+                  }}
+                >
+                  Tepichin
+                </span>
+              </motion.h1>
 
-              <motion.div variants={aboutItem} className="pt-2 flex justify-center md:justify-start">
+              <motion.p
+                variants={fadeUp}
+                custom={0.25}
+                initial="hidden"
+                animate="visible"
+                className="text-base sm:text-lg font-medium"
+                style={{ color: '#78716c' }}
+              >
+                Ingeniero de Sistemas — Automatización & Infraestructura
+              </motion.p>
+
+              {/* Social links */}
+              <motion.div
+                variants={fadeUp}
+                custom={0.35}
+                initial="hidden"
+                animate="visible"
+                className="flex gap-3 pt-1"
+              >
+                <a
+                  href="https://github.com/DiegoTepichin"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 hover:-translate-y-0.5"
+                  style={{
+                    background: 'rgba(250, 247, 242, 0.04)',
+                    border: '1px solid rgba(250, 247, 242, 0.08)',
+                    color: '#a8a29e',
+                  }}
+                  aria-label="GitHub"
+                >
+                  <FaGithub className="w-3.5 h-3.5" /> GitHub
+                </a>
                 <a
                   href="https://www.linkedin.com/in/diego-duron-tepichin"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-ripple inline-flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold text-sm text-zinc-200 hover:text-white transition-colors duration-200"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 hover:-translate-y-0.5"
                   style={{
-                    background: 'rgba(255,255,255,0.05)',
-                    border: '1px solid rgba(255,255,255,0.1)',
+                    background: 'rgba(232, 93, 38, 0.08)',
+                    border: '1px solid rgba(232, 93, 38, 0.2)',
+                    color: '#e85d26',
                   }}
+                  aria-label="LinkedIn"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-[#0A66C2]" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z" />
-                  </svg>
-                  Conectar en LinkedIn
+                  <FaLinkedin className="w-3.5 h-3.5" /> LinkedIn
                 </a>
               </motion.div>
             </div>
+          </div>
 
-            {/* Avatar column — pulsing glow ring */}
-            <motion.div variants={aboutItem} className="flex justify-center md:justify-end">
-              <div className="relative w-64 h-64 sm:w-72 sm:h-72">
-                {/* Outer pulsing glow ring — continuous animation */}
-                <motion.div
-                  className="absolute -inset-3 rounded-full pointer-events-none"
-                  animate={{
-                    opacity: [0.3, 0.7, 0.3],
-                    scale: [1, 1.04, 1],
-                  }}
-                  transition={{
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                  }}
-                  style={{
-                    background: 'conic-gradient(from 0deg, #06b6d4, #6366f1, #a855f7, #06b6d4)',
-                    filter: 'blur(16px)',
-                  }}
-                  aria-hidden="true"
-                />
-
-                {/* Static colored ring */}
-                <div
-                  className="absolute -inset-1.5 rounded-full pointer-events-none"
-                  style={{
-                    background: 'conic-gradient(from 0deg, #06b6d4, #6366f1, #a855f7, #06b6d4)',
-                    animation: shouldReduceMotion ? 'none' : 'aurora-shift 8s linear infinite',
-                    opacity: 0.6,
-                  }}
-                  aria-hidden="true"
-                />
-
-                {/* Avatar */}
-                <div
-                  className="relative w-full h-full rounded-full p-1"
-                  style={{ background: '#07090f' }}
-                >
-                  <img
-                    src={diegoAvatar}
-                    alt="Diego Tepichin"
-                    className="w-full h-full rounded-full object-cover"
-                  />
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
+          {/* About */}
+          <motion.p
+            variants={fadeUp}
+            custom={0.4}
+            initial="hidden"
+            animate="visible"
+            className="text-sm sm:text-base leading-relaxed max-w-2xl"
+            style={{ color: '#78716c' }}
+          >
+            Estudiante de Ingeniería en Sistemas con enfoque en automatización, infraestructura
+            cloud y desarrollo web. Construyo herramientas que resuelven problemas reales con
+            Python, Docker y CI/CD. Busco oportunidades remotas donde pueda crecer como ingeniero y
+            aportar desde el día uno.
+          </motion.p>
         </section>
 
+        {/* ═══════════════════════════════════════════════════════════
+            SKILLS SECTION
+        ═══════════════════════════════════════════════════════════ */}
+        <motion.section
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-80px' }}
+          className="space-y-6"
+        >
+          <motion.div variants={fadeUp} custom={0}>
+            <p
+              className="text-xs font-semibold uppercase tracking-[0.2em]"
+              style={{ color: '#e85d26' }}
+            >
+              Stack Tecnológico
+            </p>
+            <h2
+              className="text-2xl sm:text-3xl font-bold tracking-tight mt-1"
+              style={{ fontFamily: 'var(--font-display)', color: '#faf7f2' }}
+            >
+              Herramientas con las que trabajo
+            </h2>
+          </motion.div>
+
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-60px' }}
+            className="flex flex-wrap gap-3"
+          >
+            {SKILLS.map(({ label, Icon, color }) => (
+              <motion.div
+                key={label}
+                variants={skillItem}
+                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-medium cursor-default transition-all duration-200 hover:-translate-y-0.5"
+                style={{
+                  background: '#1c1917',
+                  border: '1px solid rgba(250, 247, 242, 0.06)',
+                  color: '#a8a29e',
+                }}
+                whileHover={{
+                  borderColor: `${color}40`,
+                  boxShadow: `0 4px 16px ${color}15`,
+                }}
+              >
+                <Icon className="w-4 h-4 shrink-0" style={{ color }} aria-hidden="true" />
+                {label}
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.section>
+
+        {/* ═══════════════════════════════════════════════════════════
+            FEATURED PROJECT
+        ═══════════════════════════════════════════════════════════ */}
+        <motion.section
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-80px' }}
+          className="space-y-6"
+        >
+          <motion.div variants={fadeUp} custom={0}>
+            <p
+              className="text-xs font-semibold uppercase tracking-[0.2em]"
+              style={{ color: '#e85d26' }}
+            >
+              Proyecto Destacado
+            </p>
+          </motion.div>
+
+          <motion.div
+            variants={fadeUp}
+            custom={0.1}
+            className="rounded-2xl p-6 sm:p-8 transition-all duration-300 hover:-translate-y-1"
+            style={{
+              background:
+                'linear-gradient(135deg, rgba(232,93,38,0.08) 0%, rgba(194,65,12,0.04) 100%)',
+              border: '1px solid rgba(232, 93, 38, 0.2)',
+              boxShadow: '0 4px 24px rgba(232, 93, 38, 0.06)',
+            }}
+          >
+            <div className="space-y-4">
+              {/* Tag */}
+              <span
+                className="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider"
+                style={{
+                  background: 'rgba(232, 93, 38, 0.15)',
+                  color: '#e85d26',
+                }}
+              >
+                {FEATURED_PROJECT.tag}
+              </span>
+
+              {/* Name */}
+              <h3
+                className="text-xl sm:text-2xl font-bold tracking-tight"
+                style={{ fontFamily: 'var(--font-display)', color: '#faf7f2' }}
+              >
+                {FEATURED_PROJECT.name}
+              </h3>
+
+              {/* Description */}
+              <p className="text-sm leading-relaxed max-w-xl" style={{ color: '#78716c' }}>
+                {FEATURED_PROJECT.description}
+              </p>
+
+              {/* Tech + CTA */}
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 pt-2">
+                <div className="flex flex-wrap gap-2">
+                  {FEATURED_PROJECT.tech.map((t) => (
+                    <span
+                      key={t}
+                      className="text-xs font-medium px-2.5 py-1 rounded-lg"
+                      style={{
+                        background: 'rgba(250, 247, 242, 0.04)',
+                        border: '1px solid rgba(250, 247, 242, 0.08)',
+                        color: '#a8a29e',
+                        fontFamily: 'var(--font-mono)',
+                      }}
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+
+                <a
+                  href={FEATURED_PROJECT.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all duration-200 hover:brightness-110 hover:-translate-y-0.5"
+                  style={{
+                    background: 'linear-gradient(135deg, #e85d26, #c2410c)',
+                    boxShadow: '0 4px 16px rgba(232, 93, 38, 0.3)',
+                  }}
+                >
+                  <FiExternalLink className="w-4 h-4" aria-hidden="true" />
+                  Ver Proyecto
+                </a>
+              </div>
+            </div>
+          </motion.div>
+        </motion.section>
+
+        {/* ═══════════════════════════════════════════════════════════
+            CTA — Contact
+        ═══════════════════════════════════════════════════════════ */}
+        <motion.section
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
+          className="text-center space-y-5 py-12"
+          style={{ borderTop: '1px solid rgba(250, 247, 242, 0.06)' }}
+        >
+          <motion.h2
+            variants={fadeUp}
+            custom={0}
+            className="text-2xl sm:text-3xl font-bold tracking-tight"
+            style={{ fontFamily: 'var(--font-display)', color: '#faf7f2' }}
+          >
+            ¿Trabajamos juntos?
+          </motion.h2>
+
+          <motion.p
+            variants={fadeUp}
+            custom={0.1}
+            className="text-sm max-w-md mx-auto"
+            style={{ color: '#78716c' }}
+          >
+            Estoy buscando oportunidades remotas en ingeniería de sistemas, automatización e
+            infraestructura. Hablemos.
+          </motion.p>
+
+          <motion.div variants={fadeUp} custom={0.2} className="flex justify-center gap-3 pt-2">
+            <Link
+              to="/contacto"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white transition-all duration-200 hover:brightness-110 hover:-translate-y-0.5"
+              style={{
+                background: 'linear-gradient(135deg, #e85d26, #c2410c)',
+                boxShadow: '0 4px 16px rgba(232, 93, 38, 0.3)',
+              }}
+            >
+              Contáctame
+              <FiArrowRight className="w-4 h-4" aria-hidden="true" />
+            </Link>
+
+            <Link
+              to="/proyectos"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5"
+              style={{
+                background: 'rgba(250, 247, 242, 0.04)',
+                border: '1px solid rgba(250, 247, 242, 0.08)',
+                color: '#a8a29e',
+              }}
+            >
+              Ver Proyectos
+            </Link>
+          </motion.div>
+        </motion.section>
       </div>
     </PageTransition>
   );

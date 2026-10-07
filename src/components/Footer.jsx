@@ -1,8 +1,17 @@
 export default function Footer() {
   return (
-    <footer className="border-t border-zinc-200/80 dark:border-zinc-800/80 bg-zinc-50/50 dark:bg-zinc-950/50 text-zinc-500 dark:text-zinc-400 text-sm mt-auto transition-colors duration-300">
-      <div className="max-w-4xl mx-auto px-6 py-8 text-center">
-        <p>&copy; {new Date().getFullYear()} Diego Tepichin. Todos los derechos reservados.</p>
+    <footer
+      className="mt-auto"
+      style={{
+        borderTop: '1px solid rgba(250, 247, 242, 0.06)',
+        background: 'rgba(28, 25, 23, 0.4)',
+      }}
+    >
+      <div className="max-w-5xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p className="text-sm text-ash">&copy; {new Date().getFullYear()} Diego Tepichin</p>
+        <p className="text-xs text-ash/60" style={{ fontFamily: 'var(--font-mono)' }}>
+          React · Vite · Tailwind
+        </p>
       </div>
     </footer>
   );
