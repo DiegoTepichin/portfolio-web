@@ -53,7 +53,7 @@ const FEATURED_PROJECT = {
   description:
     'Motor de pricing dinámico con ML e inferencia causal. Causal Adaptive Fusion Engine v2.2 — optimización de precios en tiempo real.',
   tech: ['Python', 'Scikit-learn', 'Prompt Eng.'],
-  link: 'https://cafe-pricing.netlify.app/?lang=en#pricing',
+  link: 'https://cafe-pricing.com/?lang=en#pricing',
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

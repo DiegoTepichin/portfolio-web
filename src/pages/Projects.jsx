@@ -82,7 +82,7 @@ const projects = [
     ],
     HeroIcon: SiOpenai,
     gradient: 'from-purple-500 to-pink-600',
-    link: 'https://cafe-pricing.netlify.app/?lang=en#pricing',
+    link: 'https://cafe-pricing.com/?lang=en#pricing',
     featured: true,
     accent: 'purple',
   },
